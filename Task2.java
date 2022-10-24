@@ -118,12 +118,14 @@ public class Task2 {
         }
     }
     public static boolean isPrefix(String word, String prefix) {
-        String x = prefix.substring(0, prefix.length()-1);
-        return (word.contains(x)) ? true : false;
+        String a = prefix.substring(0, prefix.length()-1);
+        String b = word.substring(0, a.length());
+        return (b.equals(a)) ? true : false;
     }
     public static boolean isSuffix(String word, String suffix) {
-        String x = suffix.substring(1, suffix.length());
-        return (word.contains(x)) ? true : false;
+        String a = suffix.substring(1, suffix.length());
+        String b = word.substring(word.length() - a.length(), word.length());
+        return (b.equals(a)) ? true : false;
     }
     public static int boxSeq(int x) {
         int s = 0;
