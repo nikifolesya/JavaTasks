@@ -48,6 +48,7 @@ public class Task2 {
         System.out.println(boxSeq(1));
         System.out.println(boxSeq(2));
     }
+    //повторение символов n раз
     public static  String repeat(String word, int n) {
         String result = "";
         for (int i = 0; i < word.length(); i++ ) {
@@ -59,6 +60,7 @@ public class Task2 {
         }
         return result;
     }
+    //разница между большим и маленьким
     public static int differenceMaxMin(int[] numbers) {
         int max = numbers[0];
         int min = numbers[0];
@@ -68,6 +70,7 @@ public class Task2 {
         }
         return max - min;
     }
+    //среднее значение целое или нет
     public static boolean isAvgWhole(int[] newArray) {
         int sum = 0;
         for (int i = 0; i < newArray.length; i++) {
@@ -75,12 +78,14 @@ public class Task2 {
         }
         return sum % newArray.length == 0 ? true : false;
     }
+    //массив суммы числа и предыдущих
     public static String cumulativeSum(int[] newArray) {
         for (int i = 1; i < newArray.length; i++) {
             newArray[i] = newArray[i] + newArray[i-1];
         }
         return Arrays.toString(newArray);
     }
+    //кол-во знаков после запятой
     public static int getDecimalPlaces(String s) {
         String[] arr = s.split("\\.");
         String n = "";
@@ -94,6 +99,7 @@ public class Task2 {
             return 0;
         }
     }
+    //числа Фибоначчи
     public static int Fibonacci(int x) {
         int[] arr = new int[x+2];
         arr[0] = 0;
@@ -103,9 +109,11 @@ public class Task2 {
         }
         return arr[arr.length-1];
     }
+    //индекс
     public static boolean isValid(String index) {
         return (index.length() == 5) ? index.matches("[\\d]+") : false;
     }
+    //странная пара (первый символ равен последнему и наоборот)
     public static boolean isStrangePair(String a, String b) {
         if (a != "" && b != "") {
             return (a.charAt(0) == b.charAt(b.length()-1) && b.charAt(0) == a.charAt(a.length()-1)) ? true : false;
@@ -117,16 +125,19 @@ public class Task2 {
             return false;
         }
     }
+    //префикс
     public static boolean isPrefix(String word, String prefix) {
         String a = prefix.substring(0, prefix.length()-1);
         String b = word.substring(0, a.length());
         return (b.equals(a)) ? true : false;
     }
+    //суффикс
     public static boolean isSuffix(String word, String suffix) {
         String a = suffix.substring(1, suffix.length());
         String b = word.substring(word.length() - a.length(), word.length());
         return (b.equals(a)) ? true : false;
     }
+    //количество полей
     public static int boxSeq(int x) {
         int s = 0;
         if (x == 0) {
