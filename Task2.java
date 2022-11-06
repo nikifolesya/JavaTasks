@@ -76,7 +76,7 @@ public class Task2 {
         for (int i = 0; i < newArray.length; i++) {
             sum += newArray[i];
         }
-        return sum % newArray.length == 0 ? true : false;
+        return sum % newArray.length == 0;
     }
     //массив суммы числа и предыдущих
     public static String cumulativeSum(int[] newArray) {
@@ -89,10 +89,8 @@ public class Task2 {
     public static int getDecimalPlaces(String s) {
         String[] arr = s.split("\\.");
         String n = "";
-        for (int i = 0; i < arr.length; i++) {
-            n = arr[i];
-        }
         if (arr.length >= 2) {
+            n = arr[arr.length-1];
             return n.length();
         }
         else {
@@ -111,12 +109,12 @@ public class Task2 {
     }
     //индекс
     public static boolean isValid(String index) {
-        return (index.length() == 5) ? index.matches("[\\d]+") : false;
+        return (index.length() == 5) && index.matches("[\\d]+");
     }
     //странная пара (первый символ равен последнему и наоборот)
     public static boolean isStrangePair(String a, String b) {
         if (a != "" && b != "") {
-            return (a.charAt(0) == b.charAt(b.length()-1) && b.charAt(0) == a.charAt(a.length()-1)) ? true : false;
+            return (a.charAt(0) == b.charAt(b.length()-1) && b.charAt(0) == a.charAt(a.length()-1));
         }
         else if (a == "" && b == "") {
             return true;
@@ -129,13 +127,13 @@ public class Task2 {
     public static boolean isPrefix(String word, String prefix) {
         String a = prefix.substring(0, prefix.length()-1);
         String b = word.substring(0, a.length());
-        return (b.equals(a)) ? true : false;
+        return (b.equals(a));
     }
     //суффикс
     public static boolean isSuffix(String word, String suffix) {
         String a = suffix.substring(1, suffix.length());
         String b = word.substring(word.length() - a.length(), word.length());
-        return (b.equals(a)) ? true : false;
+        return (b.equals(a));
     }
     //количество полей
     public static int boxSeq(int x) {
