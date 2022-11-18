@@ -7,6 +7,7 @@ public class Task3 {
         System.out.println(solutions(1, 0, -1));
         System.out.println(solutions(1, 0, 0));
         System.out.println(solutions(1, 0, 1));
+        System.out.println(solutions(0, 1, 1));
         System.out.println("-----------№2-----------");
         System.out.println(findZip("all zip files are zipped"));
         System.out.println(findZip("all zip files are compressed"));
@@ -56,10 +57,10 @@ public class Task3 {
 
     //кол-во решений квадратного уравнения
     public static int solutions(int a, int b, int c) {
-        if ((b * b - 4 * a * c) > 0) {
+        if (a != 0 && (b * b - 4 * a * c) > 0) {
             return 2;
         }
-        else if ((b * b - 4 * a * c) == 0) {
+        else if (a == 0 || (b * b - 4 * a * c) == 0) {
             return 1;
         }
         else {
@@ -76,12 +77,12 @@ public class Task3 {
     public static boolean checkPerfect(int n) {
         int sum = 0;
         ArrayList<Integer> arrayList = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
+        for (int i = 1; i < n; i++) {
             if(n % i == 0) {
                 arrayList.add(i);
             }
         }
-        for (int j = 0; j < arrayList.size() - 1; j++) {
+        for (int j = 0; j < arrayList.size(); j++) {
             sum += arrayList.get(j);
         }
         return (sum == n);   
@@ -198,4 +199,5 @@ public class Task3 {
         else return false;
     }
 
+     
 }
