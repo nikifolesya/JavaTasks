@@ -7,3 +7,6 @@
 ---
 ### Task 3
 ![Image alt](images/task3.png)
+---
+### Task 4
+![Image alt](images/task4.png)

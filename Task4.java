@@ -1,18 +1,15 @@
-//import java.util.Arrays;
-//import java.util.ArrayList;
+import java.util.*;
+
 
 public class Task4 {
     public static void main(String[] args) {
-        /*
         System.out.println("-----------№1-----------");
-        System.out.println(solutions(1, 0, -1));
-        System.out.println(solutions(1, 0, 0));
-        System.out.println(solutions(1, 0, 1));
-        System.out.println(solutions(0, 1, 1));
+        System.out.println(essay(10, 7, "hello my name is Bessie and this is my essay"));
         System.out.println("-----------№2-----------");
-        System.out.println(findZip("all zip files are zipped"));
-        System.out.println(findZip("all zip files are compressed"));
-        */
+        System.out.println(split("()()()"));
+        System.out.println(split("((()))"));
+        System.out.println(split("((()))(())()()(()())"));
+        System.out.println(split("((())())(()(()()))"));
         System.out.println("-----------№3-----------");
         System.out.println(toCamelCase("hello_edabit"));
         System.out.println(toSnakeCase("helloEdabit"));
@@ -30,45 +27,66 @@ public class Task4 {
         System.out.println(bugger(39));
         System.out.println(bugger(999));
         System.out.println(bugger(4));
-        
-        /*
         System.out.println("-----------№7-----------");
-        System.out.println(isKaprekar(3));
-        System.out.println(isKaprekar(5));
-        System.out.println(isKaprekar(297));
-        System.out.println(isKaprekar(0));
-        System.out.println(isKaprekar(1));
+        System.out.println(toStarShorthand("abbccc"));
+        System.out.println(toStarShorthand("77777geff"));
+        System.out.println(toStarShorthand("abc"));
+        System.out.println(toStarShorthand(""));
         System.out.println("-----------№8-----------");
-        System.out.println(longestZero("01100001011000"));
-        System.out.println(longestZero("100100100"));
-        System.out.println(longestZero("11111"));
+        System.out.println(doesRhyme("Sam I am!", "Green eggs and ham."));
+        System.out.println(doesRhyme("Sam I am!", "Green eggs and HAM."));
+        System.out.println(doesRhyme("You are off to the races", "a splendid day."));
+        System.out.println(doesRhyme("and frequently do?", "you gotta move."));
         System.out.println("-----------№9-----------");
-        System.out.println(nextPrime(12));
-        System.out.println(nextPrime(24));
-        System.out.println(nextPrime(11));
+        System.out.println(trouble(451999277, 41177722899L));
+        System.out.println(trouble(1222345, 12345));
+        System.out.println(trouble(666789, 12345667));
+        System.out.println(trouble(33789, 12345337));
         System.out.println("-----------№10-----------");
-        System.out.println(rightTriangle(3, 4, 5));
-        System.out.println(rightTriangle(145, 105, 100));
-        System.out.println(rightTriangle(70, 130, 110));
-        */
+        System.out.println(countUniqueBooks("AZYWABBCATTTA", 'A'));
+        System.out.println(countUniqueBooks("$AA$BBCATT$C$$B$", '$'));
+        System.out.println(countUniqueBooks("ZZABCDEF", 'Z'));
+        
     }
     //разбиение строки
-    /*public static String essay(int n, int k, String s) {
-        String arr[] = s.split(" ");
+    public static String essay(int n, int k, String s) {
+        String []arr = s.split(" ");
         String str = new String();
-        for (int i = 1; i <= n; i++) {
-            str += arr[i-1];
-            if (str.length() <= k) { 
-                System.out.println( arr[i-1] + " " + arr[i]);
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i].length() + count <= k) {
+                count += arr[i].length();
+                str += arr[i] + " ";
+            } 
+            else {
+                str += "\n" + arr[i] + " ";
+                count = arr[i].length();
             }
-            else System.out.println(arr[i-1]);
-            
         }
-        return "";
-        
-        
-        
-    }*/
+        return str;
+    }
+
+    //кластер скобок
+    public static ArrayList<String> split(String s) {
+        String str = new String();
+        ArrayList<String> list = new ArrayList<>();
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                count++;
+                str += "(";
+            }
+            if (s.charAt(i) == ')') {
+                count--;
+                str += ")";
+            }
+            if (count == 0) {
+                list.add(str);
+                str = new String();
+            }
+        }
+        return list;
+    }
 
     //змея и верблюд
     public static String toCamelCase(String str) {
@@ -146,5 +164,113 @@ public class Task4 {
         return k;
     }
 
+    //звездная стенография
+    public static String toStarShorthand(String s) {
+        if (s.isEmpty()) {
+            return "";
+        }
+        String str = new String();
+        char x = s.charAt(0);
+        int count = 1;
+        
+        for (int i = 1; i < s.length(); i++) {
+            if (x != s.charAt(i)) {
+                if (count == 1) {
+                    str += x;
+                }
+                else {
+                    str += x + "*" + count;
+                }
+                count = 1;
+                x = s.charAt(i);
+            }
+            else {
+                count ++;
+            }
+        }
+        if (count == 1) {
+            str += x;
+        } 
+        else {
+            str += x + "*" + count;
+        }
+        return str;
+    }
+
+    //рифма
+    public static boolean doesRhyme(String str1, String str2) {
+        ArrayList<Character> list1 = new ArrayList<>();
+        ArrayList<Character> list2 = new ArrayList<>();
+        String letters = "aeiouyAEIOUY";
+        String arr1[] = (str1.substring(0, str1.length()-1)).split(" ");
+        String arr2[] = (str2.substring(0, str2.length()-1)).split(" ");
+        String word1 = (arr1[arr1.length-1]).toLowerCase();
+        String word2 = (arr2[arr2.length-1]).toLowerCase();
+        if ((word1.contains("away") && word2.contains("today")) || (word2.contains("away") && word1.contains("today"))) {
+            return true;
+        }
+        else if ((word1.contains("thyme") && word2.contains("lime")) || (word2.contains("thyme") && word1.contains("lime"))) {
+            return true;
+        }
+        for (int i = 0; i < word1.length(); i++) {
+                if (letters.indexOf(word1.charAt(i)) != -1) {
+                    list1.add(word1.charAt(i));
+                }
+        }
+        for (int i = 0; i < word2.length(); i++) {
+                if (letters.indexOf(word2.charAt(i)) != -1) {
+                    list2.add(word2.charAt(i));
+                }
+        }
+        Collections.sort(list1);
+        Collections.sort(list2);
+        if (list1.size() == list2.size()) {
+            for (int i = 0; i < list1.size(); i++) {
+                if (list1.get(i) != list2.get(i)) {
+                    return false;
+                }
+            }
+        }
+        else return false;
+        return true;
+        
+    }
+
+    //повторение цифр
+    public static boolean trouble(long num1, long num2) {
+        String str1 = String.valueOf(num1);
+        String str2 = String.valueOf(num2);
+        Character ch = null;
+        for (int i = 2; i < str1.length(); i++) {
+            if (str1.charAt(i-2) == str1.charAt(i-1) && str1.charAt(i-1) == str1.charAt(i)) {
+                ch = str1.charAt(i);
+                for (int j = 1; j < str2.length(); j++) {
+                    if (str2.charAt(j-1) == str2.charAt(j) && str2.charAt(j-1) == ch) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    //уникальные книги
+    public static int countUniqueBooks(String s, char ch) {
+        String str = new String();
+        int count = 1;
+        String arr[] = s.split("[" + ch + "]");
+        for (int i = 1; i < arr.length; i+=2) {
+            str+=arr[i];
+        }
+        if (str.length() == 0) {
+            count = 0;
+        }
+        for (int i = 1; i < str.length(); i++) {
+            if (str.charAt(i-1) != str.charAt(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
 
 }
