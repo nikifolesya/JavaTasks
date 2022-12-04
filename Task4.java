@@ -151,17 +151,17 @@ public class Task4 {
     //кол-во умножений до одноцифрового числа
     public static int bugger(int n) {
         int x = n;
-        int k = 0;
+        int count = 0;
         while (x > 9) {
             x = 1;
             while (n > 0) {
                 x *= n % 10;
                 n = n / 10;
             }
-            k+=1;
+            count += 1;
             n = x;
         }
-        return k;
+        return count;
     }
 
     //звездная стенография
@@ -201,7 +201,7 @@ public class Task4 {
     public static boolean doesRhyme(String str1, String str2) {
         ArrayList<Character> list1 = new ArrayList<>();
         ArrayList<Character> list2 = new ArrayList<>();
-        String letters = "aeiouyAEIOUY";
+        String letters = "aeiouy";
         String arr1[] = (str1.substring(0, str1.length()-1)).split(" ");
         String arr2[] = (str2.substring(0, str2.length()-1)).split(" ");
         String word1 = (arr1[arr1.length-1]).toLowerCase();
@@ -247,7 +247,7 @@ public class Task4 {
                 for (int j = 1; j < str2.length(); j++) {
                     if (str2.charAt(j-1) == str2.charAt(j) && str2.charAt(j-1) == ch) {
                         return true;
-                    }
+                    } 
                 }
             }
         }
