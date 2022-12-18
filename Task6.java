@@ -1,0 +1,510 @@
+import java.util.*;
+ 
+
+public class Task6 {
+    public static void main(String[] args) throws Exception {
+        System.out.println("-----------№1-----------");
+        System.out.println(bell(1));
+        System.out.println(bell(2));
+        System.out.println(bell(3));
+        System.out.println(bell(4));
+        System.out.println("-----------№2-----------");
+        System.out.println(translateWord("flag"));
+        System.out.println(translateWord("Apple"));
+        System.out.println(translateWord("button"));
+        System.out.println(translateWord(""));
+        System.out.println(translateSentence("I like to eat honey waffles."));
+        System.out.println(translateSentence("Do you think it is going to rain today?"));
+        System.out.println("-----------№3-----------");
+        System.out.println(validColor("rgb(0,0,0)"));
+        System.out.println(validColor("rgb(0,,0)"));  
+        System.out.println(validColor("rgb(255,256,255)")); 
+        System.out.println(validColor("rgba(0,0,0,0.123456789)"));
+        System.out.println("-----------№4-----------");
+        System.out.println(stripUrlParams("https://edabit.com?a=1&b=2&a=2"));
+        System.out.println(stripUrlParams("https://edabit.com?a=1&b=2&a=2", new String[] {"b"}));
+        System.out.println(stripUrlParams("https://edabit.com", new String[] {"b"}));
+        System.out.println("-----------№5-----------");
+        System.out.println(getHashTags("How the Avocado Became the Fruit of the Global Trade"));
+        System.out.println(getHashTags("Why You Will Probably Pay More for Your Christmas Tree This Year"));
+        System.out.println(getHashTags("Hey Parents, Surprise, Fruit Juice Is Not Fruit"));
+        System.out.println(getHashTags("Science Visualizing"));
+        /*System.out.println("-----------№6-----------");
+        System.out.println(validateCard(1234567890123456L));
+        System.out.println(validateCard(1234567890123452L));  
+        System.out.println("-----------№7-----------");
+        System.out.println(numToEng(0));
+        System.out.println(numToEng(18)); 
+        System.out.println(numToEng(126)); 
+        System.out.println(numToEng(909)); 
+        System.out.println(numToRus(0));
+        System.out.println(numToRus(18)); 
+        System.out.println(numToRus(126)); 
+        System.out.println(numToRus(909));*/ 
+        System.out.println("-----------№8-----------");
+        System.out.println(convertToRoman(2));
+        System.out.println(convertToRoman(12));
+        System.out.println(convertToRoman(16));
+        System.out.println(convertToRoman(66));
+        System.out.println(convertToRoman(46));
+        System.out.println(convertToRoman(996));
+        System.out.println(convertToRoman(2499));
+        System.out.println("-----------№9-----------");
+        System.out.println(formula("6 * 4 = 24"));
+        System.out.println(formula("18 / 17 = 2")); 
+        System.out.println(formula("16 * 10 = 160 = 14 + 120"));
+        /*System.out.println("-----------№10-----------");
+        System.out.println(hexLattice(1));
+        System.out.println(hexLattice(7));
+        System.out.println(hexLattice(19));
+        System.out.println(hexLattice(21));
+        */
+    }
+    
+    public static int getFactorial(int n) {
+        if (n == 0) return 1;
+        int result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    //число белла
+    public static int bell(int n) {
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[n];
+        int b = 1;
+        arr1[0] = 1;
+        for (int i = 1; i < n; i++) {
+            arr2[0] = b;
+            for (int j = 1; j < i + 1; j++) {
+                arr2[j] = b + arr1[j-1];
+                b = arr2[j];
+            }
+            b = arr2[i];
+            for (int j = 0; j < n; j++) {
+                arr1[j] = arr2[j];
+            }
+        }
+        return b;
+    }
+
+    //поросячий латинский
+    public static String translateWord(String s) {
+        String letters = "aeyuioAEYUIO";
+        //String str = new String();
+        int n = 0;
+        if (s.isEmpty()) {
+            return "";
+        }
+        if (letters.indexOf(s.charAt(0)) != -1) {
+            s += "yay";
+        }
+        else {
+            while (letters.indexOf(s.charAt(n)) == -1) {
+                n++;
+            }
+            if (Character.isUpperCase(s.charAt(0))) {
+                s = s.substring(n, n + 1).toUpperCase() + s.substring(n + 1) + s.substring(0, n).toLowerCase() + "ay";
+            } 
+            else s = s.substring(n) + s.substring(0, n) + "ay";
+        }
+        return s;
+    }
+
+    public static String translateSentence(String s) {
+        String sign = s.substring(s.length()-1);
+        String str = new String();
+        String[] arr = s.substring(0,s.length()-1).split(" ");
+        str = translateWord(arr[0]);
+        for (int i = 1; i < arr.length; i++) {
+            str += " " + translateWord(arr[i]);
+        }
+        return str + sign;
+    }
+
+    //формат цвета
+    public static boolean validColor(String s) {
+        if (s.substring(0,4).contains("rgb(")) {
+            s = s.substring(4, s.length() - 1);
+        }
+        else if (s.substring(0, 5).contains("rgba(")) {
+            s = s.substring(5, s.length() - 1);
+        }
+        String[] arr1 = s.split(",");
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i].isEmpty()) return false;
+        } 
+        double[] arr2 = new double[arr1.length];
+        for (int i = 0; i < arr1.length; i++) {
+            arr2[i] = Double.parseDouble(arr1[i]);
+        }
+        if (arr2.length == 3) {
+            for (int i = 0; i < arr2.length; i++) {
+                int b = (int) arr2[i];
+                if (b >= 0 && b <= 255) continue;
+                else return false;
+            }
+        }
+        if (arr2.length == 4) {
+            for (int i = 0; i < arr2.length - 1; i++) {
+                int b = (int) arr2[i];
+                if (b >= 0 && b <= 255) continue;
+                else return false;
+            }
+            if (arr2[arr2.length - 1] >= 0 && arr2[arr2.length - 1] <= 1) return true;
+        }
+        return true;
+    }
+
+    //ссылка
+    public static String stripUrlParams(String url) {
+        return stripUrlParams(url, new String[] { "" });
+    }
+
+    public static String stripUrlParams(String url, String[] arr) {
+        String s = new String();
+        ArrayList<String> list = new ArrayList<>();
+        if (url.contains("?")) {
+            s = url.substring(url.indexOf("?") + 1);
+            url = url.substring(0, url.indexOf("?") + 1);
+        }
+        else {
+            return url;
+        }
+        String[] arr1 = s.split("&");
+        Arrays.sort(arr1);
+        for (int i = 0; i < arr1.length; i++) {
+            list.add(arr1[i]);
+        }
+        for (int i = 1; i < list.size(); i++) {
+            if (list.get(i).substring(0, 1).equals(list.get(i-1).substring(0, 1))) {
+                list.remove(i-1);
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).substring(0, 1).equals(arr[0])) {
+                list.remove(i);
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            url += list.get(i) + "&";
+        }
+        return url.substring(0,url.length()-1);
+    }
+
+    //длинное слово + хэштэг
+    public static ArrayList<String> getHashTags(String s) {
+        ArrayList<String> list = new ArrayList<>();
+        String str;
+        s = s.toLowerCase().replace(',', ' ');
+        String[] arr = s.split(" ");
+        if (arr.length < 3) {
+            if (arr[0].length() < arr[1].length()) {
+                list.add("#" + arr[1]);
+                list.add("#" + arr[0]);
+            }
+            else if (arr[0].length() > arr[1].length()) {
+                list.add("#" + arr[0]);
+                list.add("#" + arr[1]);
+            }
+        }
+        else {
+            for(int i = 1; i < arr.length; i++) {
+                for(int j = arr.length-1; j >= i; j--) {
+                    if(arr[j-1].length() < arr[j].length()){
+                        str = arr[j-1];
+                        arr[j-1] = arr[j];
+                        arr[j] = str;
+                    }
+                }
+            }
+            for (int i = 0; i < 3; i++) {
+                list.add("#" + arr[i]);
+            }
+        }
+        return list;
+    }
+
+    //римские числа
+    public static String convertToRoman(int n) {
+        String s = new String();
+        int a, b, c, d;
+        Map<Integer, String> numbers = new HashMap<Integer, String>();
+        numbers.put(1, "I");
+        numbers.put(2, "II");
+        numbers.put(3, "III");
+        numbers.put(4, "IV");
+        numbers.put(5, "V");
+        numbers.put(6, "VI");
+        numbers.put(7, "VII");
+        numbers.put(8, "VIII");
+        numbers.put(9, "IX");
+        numbers.put(10, "X");
+        numbers.put(50, "L");
+        numbers.put(100, "C");
+        numbers.put(500, "D");
+        numbers.put(1000, "M");
+        if (n >= 0 && n <= 10 || n == 50 || n == 100 || n == 500 || n == 1000) {
+            s = numbers.get(n);
+        }
+        if (n % 10 == 0 && n / 10 > 0 && n / 10 < 10) {
+            a = n / 10;
+            if (a < 4) {
+                for (int i = 1; i <= a; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            if (a == 4) {
+                s += numbers.get(10) + numbers.get(50);;
+            }
+            if (a > 5 && a < 9) {
+                s += numbers.get(50);
+                for (int i = 1; i <= a; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            if (a == 9) {
+                s += numbers.get(10) + numbers.get(100);;
+            }
+        }
+        if (n % 100 == 0 && n / 100 > 0 && n / 100 < 10) {
+            a = n / 100;
+            if (a < 4) {
+                for (int i = 1; i <= a; i++) {
+                    s += numbers.get(100);
+                }
+            }
+            if (a == 4) {
+                s += numbers.get(100) + numbers.get(500);;
+            }
+            if (a > 5 && a < 9) {
+                s += numbers.get(500);
+                for (int i = 1; i <= a; i++) {
+                    s += numbers.get(100);
+                }
+            }
+            if (a == 9) {
+                s += numbers.get(100) + numbers.get(1000);;
+            }
+        }
+        if (n % 1000 == 0 && n / 1000 > 0 && n / 1000 < 3) {
+            a = n / 1000;
+            for (int i = 1; i <= a; i++) {
+                s += numbers.get(1000);
+            }
+        }
+        if (n >= 11 && n < 40) {
+            a = n / 10;
+            b = n % 10;
+            for (int i = 1; i <= a; i++) {
+                s += numbers.get(10);
+            }
+            s += numbers.get(b);
+        }
+        if (n > 40 && n < 50) {
+            b = n % 10;
+            s += numbers.get(10) + numbers.get(50) + numbers.get(b);
+        }
+        if (n > 50 && n < 90) {
+            a = (n - 50) / 10;
+            b = n % 10;
+            s = numbers.get(50);
+            for (int i = 1; i <= a; i++) {
+                s += numbers.get(10);
+            }
+            s += numbers.get(b);
+        }
+        if (n > 90 && n < 100) {
+            b = n % 10;
+            s += numbers.get(10) + numbers.get(100) + numbers.get(b);
+        }
+        if (n > 100 && n < 400) {
+            a = n / 100;
+            for (int i = 1; i <= a; i++) {
+                s += numbers.get(100);
+            }
+            b = (n / 10) % 10;
+            if (b < 4) {
+                for (int i = 1; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            else if (b == 4) {
+                s += numbers.get(10) + numbers.get(50);
+            }
+            else if (b == 5) {
+                s += numbers.get(50);
+            }
+            else if (b == 9) {
+                s += numbers.get(10) + numbers.get(100);
+            }
+            else {
+                s += numbers.get(50);;
+                for (int i = 6; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            c = n % 10;
+            s += numbers.get(c);
+        }
+        if (n > 400 && n < 500) {
+            s += numbers.get(100) + numbers.get(500);
+            b = (n / 10) % 10;
+            if (b < 4) {
+                for (int i = 1; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            else if (b == 4) {
+                s += numbers.get(10) + numbers.get(50);
+            }
+            else if (b == 5) {
+                s += numbers.get(50);
+            }
+            else if (b == 9) {
+                s += numbers.get(10) + numbers.get(100);
+            }
+            else {
+                s += numbers.get(50);;
+                for (int i = 6; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            c = n % 10;
+            s += numbers.get(c);
+        }
+        if (n > 500 && n < 900) {
+            a = (n - 500) / 100;
+            s += numbers.get(500);
+            for (int i = 1; i <= a; i++) {
+                s += numbers.get(100);
+            }
+            b = (n / 10) % 10;
+            if (b < 4) {
+                for (int i = 1; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            else if (b == 4) {
+                s += numbers.get(10) + numbers.get(50);
+            }
+            else if (b == 5) {
+                s += numbers.get(50);
+            }
+            else if (b == 9) {
+                s += numbers.get(10) + numbers.get(100);
+            }
+            else {
+                s += numbers.get(50);;
+                for (int i = 6; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            c = n % 10;
+            s += numbers.get(c);
+        }
+        if (n > 900 && n < 1000) {
+            s += numbers.get(100) + numbers.get(1000);
+            b = (n / 10) % 10;
+            if (b < 4) {
+                for (int i = 1; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            else if (b == 4) {
+                s += numbers.get(10) + numbers.get(50);
+            }
+            else if (b == 5) {
+                s += numbers.get(50);
+            }
+            else if (b == 9) {
+                s += numbers.get(10) + numbers.get(100);
+            }
+            else {
+                s += numbers.get(50);;
+                for (int i = 6; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            c = n % 10;
+            s += numbers.get(c);
+        }
+        if (n > 1000 && n < 4000) {
+            a = n / 1000;
+            for (int i = 1; i <= a; i++) {
+                s += numbers.get(1000);
+            }
+            b = (n / 100) % 10;
+            if (b < 4) {
+                for (int i = 1; i <= b; i++) {
+                    s += numbers.get(100);
+                }
+            }
+            else if (b == 4) {
+                s += numbers.get(100) + numbers.get(500);
+            }
+            else if (b == 5) {
+                s += numbers.get(500);
+            }
+            else if (b == 9) {
+                s += numbers.get(100) + numbers.get(1000);
+            }
+            else {
+                s += numbers.get(50);;
+                for (int i = 6; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            c = (n / 10) % 10;
+            if (c < 4) {
+                for (int i = 1; i <= b; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            else if (c == 4) {
+                s += numbers.get(10) + numbers.get(50);
+            }
+            else if (c == 5) {
+                s += numbers.get(50);
+            }
+            else if (c == 9) {
+                s += numbers.get(10) + numbers.get(100);
+            }
+            else {
+                s += numbers.get(50);;
+                for (int i = 6; i <= c; i++) {
+                    s += numbers.get(10);
+                }
+            }
+            d = n % 10;
+            s += numbers.get(d);
+        }
+        return s;
+    }
+
+    //выражение
+    public static boolean formula(String str) {
+        String[] arr = str.split(" [+-/=\\*] ");
+        if (str.substring(str.indexOf("=") + 1).contains("=")) {
+            return false;
+        }
+        int a = Integer.parseInt(arr[0]);
+        int b = Integer.parseInt(arr[1]);
+        int c = Integer.parseInt(arr[2]);
+        if (a + b == c) {
+            return true;
+        }
+        else if (a - b == c) {
+            return true;
+        }
+        else if (a * b == c) {
+            return true;
+        }
+        else if (a / b == c) {
+            return true;
+        }
+        return false;
+    }
+}

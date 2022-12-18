@@ -83,29 +83,32 @@ public class Task5 {
         int x2 = to.charAt(0) - 64;
         int y1 = from.charAt(1) - 48;
         int y2 = to.charAt(1) - 48;
+        if (x2 > 8 || y2 > 8 || x2 < 1 || y2 < 1) {
+            return false;
+        }
         // Фигура не может двигаться в точку в которой уже находится
         if (x1 == x2 && y1 == y2) {
             return false;
         }
-        if (name.equals("Pawn")) {
+        if (name.equals("Pawn")) { //прямо 1-2 клетки
             // Важно проверить цвет фигуры и наличие других фигур рядом
             // по умолчанию может двигаться на 1-2 клетки только по вертикали
             return ((Math.abs(y1 - y2) <= 2) && (x1 == x2)) ? true : false;
         }
-        if (name.equals("Rook")) {
+        if (name.equals("Rook")) { //по прямой
             return (x1 == x2 || y1 == y2) ? true : false;
         }
-        if (name.equals("Bishop")) {
+        if (name.equals("Bishop")) { //по диагонали
             return (Math.abs(x2 - x1) == Math.abs(y2 - y1)) ? true : false;
         }
-        if (name.equals("Knight")) {
+        if (name.equals("Knight")) { //Г
             return (((Math.abs(x1 - x2) == 1) && (Math.abs(y1 - y2) == 2)) ||
                     ((Math.abs(x1 - x2) == 2) && (Math.abs(y1 - y2) == 1))) ? true : false;
         }
-        if (name.equals("Queen")) {
+        if (name.equals("Queen")) { //по прямой и диагонали
             return (Math.abs(x2 - x1) == Math.abs(y2 - y1) || x1 == x2 || y1 == y2) ? true : false;
         }
-        if (name.equals("King")) {
+        if (name.equals("King")) { // на одну клетку в любом направлении
             return (Math.abs(x1 - x2) <= 1 && Math.abs(y1 - y2) <= 1) ? true : false;
         }
         return false;
@@ -158,7 +161,7 @@ public class Task5 {
         for (int i = 0; i < arr[0].length(); i++) {
             if (letters.indexOf(arr[0].charAt(i)) != -1) {
                 list1.add(arr[0].charAt(i));
-            }
+            }  
         }
         Collections.sort(list1);
         for (int i = 1; i < list1.size(); i++) {
