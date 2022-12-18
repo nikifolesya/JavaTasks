@@ -29,18 +29,15 @@ public class Task6 {
         System.out.println(getHashTags("Why You Will Probably Pay More for Your Christmas Tree This Year"));
         System.out.println(getHashTags("Hey Parents, Surprise, Fruit Juice Is Not Fruit"));
         System.out.println(getHashTags("Science Visualizing"));
-        /*System.out.println("-----------№6-----------");
-        System.out.println(validateCard(1234567890123456L));
-        System.out.println(validateCard(1234567890123452L));  
+        System.out.println("-----------№6-----------");
+        System.out.println(ulam(4));
+        System.out.println(ulam(9));  
+        System.out.println(ulam(206));  
         System.out.println("-----------№7-----------");
-        System.out.println(numToEng(0));
-        System.out.println(numToEng(18)); 
-        System.out.println(numToEng(126)); 
-        System.out.println(numToEng(909)); 
-        System.out.println(numToRus(0));
-        System.out.println(numToRus(18)); 
-        System.out.println(numToRus(126)); 
-        System.out.println(numToRus(909));*/ 
+        System.out.println(longestNonrepeatingSubstring("abcabcbb"));
+        System.out.println(longestNonrepeatingSubstring("aaaaaa")); 
+        System.out.println(longestNonrepeatingSubstring("abcde")); 
+        System.out.println(longestNonrepeatingSubstring("abcda"));
         System.out.println("-----------№8-----------");
         System.out.println(convertToRoman(2));
         System.out.println(convertToRoman(12));
@@ -53,21 +50,12 @@ public class Task6 {
         System.out.println(formula("6 * 4 = 24"));
         System.out.println(formula("18 / 17 = 2")); 
         System.out.println(formula("16 * 10 = 160 = 14 + 120"));
-        /*System.out.println("-----------№10-----------");
-        System.out.println(hexLattice(1));
-        System.out.println(hexLattice(7));
-        System.out.println(hexLattice(19));
-        System.out.println(hexLattice(21));
-        */
-    }
-    
-    public static int getFactorial(int n) {
-        if (n == 0) return 1;
-        int result = 1;
-        for (int i = 1; i <= n; i++) {
-            result *= i;
-        }
-        return result;
+        System.out.println("-----------№10-----------");
+        System.out.println(palindromeDescendant(11211230));
+        System.out.println(palindromeDescendant(13001120));
+        System.out.println(palindromeDescendant(23336014));
+        System.out.println(palindromeDescendant(11));
+        System.out.println(palindromeDescendant(123456));
     }
 
     //число белла
@@ -225,6 +213,72 @@ public class Task6 {
             }
         }
         return list;
+    }
+
+    //последовательность Улама
+    public static int ulam(int n) {
+        ArrayList<Integer> list = new ArrayList<>(n);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        int max = 3;
+        int x = 4; //число по счету
+        int num = 4; //просто число
+        //поочередно вычитаем все числа из последовательности
+        //если число есть, то счетчик увеличивается
+        //запускается 2 цикл по тому же списку и ищем в нем
+        while (x <= n) {
+            int count = 0;
+            int find = 0;
+            for (int i = 0; i < list.size() - 1; i++) {
+                if (num < max) {
+                    num++;
+                    continue;
+                }
+                find = num - list.get(i);
+                for (int j = list.size() - 1; j > i; j--) {
+                    if (list.get(j) == list.get(i)) {
+                        num++;
+                        break;
+                    }
+                    if (find == list.get(j)) {
+                        count++;
+                        break;
+                    }
+                }
+                
+            }
+            if (count == 1) {
+                list.add(num);
+                max = num;
+                x++;
+            }
+            num++;
+        }
+        return list.get(n-1);
+    }
+    
+    //самая длинная подстрока
+    public static String longestNonrepeatingSubstring(String s) {
+        ArrayList<String> list = new ArrayList<>();
+        String a = new String();
+        String b = new String();
+        for (int i = 0; i < s.length(); i++) {
+            if (list.contains(s.charAt(i) + "")) {
+                if (b.length() > a.length()) {
+                    a = b;
+                }
+                b = "";
+            }
+            else {
+                list.add(s.charAt(i) + "");
+                b += s.charAt(i) + "";
+                if (b.length() > a.length()) {
+                    a = b;
+                }
+            }
+        }
+        return a;
     }
 
     //римские числа
@@ -507,4 +561,43 @@ public class Task6 {
         }
         return false;
     }
+
+
+    //палиндром
+    public static boolean palindrome(int n) {
+        String a = Integer.toString(n);
+        String b = new String();
+        for (int i = a.length() - 1 ; i >= 0; i--) {
+            b += a.charAt(i);
+        }
+        if (Integer.parseInt(a) != Integer.parseInt(b)) {
+            return false;
+        }
+        return true;
+    }
+
+    public static int sumNum(int n) {
+        String a = Integer.toString(n);
+        String b = new String();
+        for (int i = 1; i < a.length(); i += 2) {
+            int x = Character.getNumericValue(a.charAt(i)) + Character.getNumericValue(a.charAt(i-1));
+            b += Integer.toString(x);
+        }
+        return Integer.parseInt(b);
+    }
+
+    public static boolean palindromeDescendant(int n) {
+        int x = n;
+        if (palindrome(n)) {
+            return true;
+        }
+        while (Integer.toString(x).length() % 2 == 0) {
+            x = sumNum(x);
+            if (palindrome(x)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

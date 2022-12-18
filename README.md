@@ -13,3 +13,6 @@
 ---
 ### Task 5
 ![Image alt](images/task5.png)
+---
+### Task 6
+![Image alt](images/task6.png)
