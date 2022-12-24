@@ -42,13 +42,14 @@ public class Task6 {
         System.out.println(convertToRoman(2));
         System.out.println(convertToRoman(12));
         System.out.println(convertToRoman(16));
+        System.out.println(convertToRoman(400));
         System.out.println(convertToRoman(66));
         System.out.println(convertToRoman(46));
         System.out.println(convertToRoman(996));
         System.out.println(convertToRoman(2499));
         System.out.println("-----------№9-----------");
         System.out.println(formula("6 * 4 = 24"));
-        System.out.println(formula("18 / 17 = 2")); 
+        System.out.println(formula("18 - 17 = 1")); 
         System.out.println(formula("16 * 10 = 160 = 14 + 120"));
         System.out.println("-----------№10-----------");
         System.out.println(palindromeDescendant(11211230));
@@ -81,7 +82,6 @@ public class Task6 {
     //поросячий латинский
     public static String translateWord(String s) {
         String letters = "aeyuioAEYUIO";
-        //String str = new String();
         int n = 0;
         if (s.isEmpty()) {
             return "";
@@ -540,23 +540,23 @@ public class Task6 {
 
     //выражение
     public static boolean formula(String str) {
-        String[] arr = str.split(" [+-/=\\*] ");
         if (str.substring(str.indexOf("=") + 1).contains("=")) {
             return false;
         }
+        String[] arr = str.split(" [+-/=\\*] ");
         int a = Integer.parseInt(arr[0]);
         int b = Integer.parseInt(arr[1]);
         int c = Integer.parseInt(arr[2]);
-        if (a + b == c) {
+        if (str.contains("+") && a + b == c) {
             return true;
         }
-        else if (a - b == c) {
+        else if (str.contains("-") && a - b == c) {
             return true;
         }
-        else if (a * b == c) {
+        else if (str.contains("*") && a * b == c) {
             return true;
         }
-        else if (a / b == c) {
+        else if (str.contains("/") && a / b == c) {
             return true;
         }
         return false;
